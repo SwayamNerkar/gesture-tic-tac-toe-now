@@ -1,6 +1,4 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { Hands, Results } from '@mediapipe/hands';
-import { Camera } from '@mediapipe/camera_utils';
 
 export interface HandGesture {
   pointing: boolean;
@@ -65,82 +63,94 @@ export const useHandGestures = () => {
   }, []);
 
   useEffect(() => {
-    if (!videoRef.current || !canvasRef.current) return;
+    let camera: any;
+    let hands: any;
 
-    const hands = new Hands({
-      locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`,
-    });
+    const initializeHandTracking = async () => {
+      if (!videoRef.current || !canvasRef.current) return;
 
-    hands.setOptions({
-      maxNumHands: 1,
-      modelComplexity: 1,
-      minDetectionConfidence: 0.5,
-      minTrackingConfidence: 0.5,
-    });
+      try {
+        // Dynamic import of MediaPipe modules
+        const { Hands } = await import('@mediapipe/hands');
+        const { Camera } = await import('@mediapipe/camera_utils');
 
-    hands.onResults((results: Results) => {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-
-      // Clear canvas
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
-        const landmarks = results.multiHandLandmarks[0];
-        const gestureResult = detectPointing(landmarks);
-        setGesture(gestureResult);
-
-        // Draw landmarks for debugging
-        ctx.fillStyle = '#FF0000';
-        landmarks.forEach((landmark: any) => {
-          ctx.beginPath();
-          ctx.arc(landmark.x * canvas.width, landmark.y * canvas.height, 3, 0, 2 * Math.PI);
-          ctx.fill();
+        hands = new Hands({
+          locateFile: (file: string) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`,
         });
 
-        // Highlight index finger tip if pointing
-        if (gestureResult.pointing && landmarks[8]) {
-          ctx.fillStyle = '#00FF00';
-          ctx.beginPath();
-          ctx.arc(
-            landmarks[8].x * canvas.width,
-            landmarks[8].y * canvas.height,
-            8,
-            0,
-            2 * Math.PI
-          );
-          ctx.fill();
-        }
-      } else {
-        setGesture({ pointing: false, pointingPosition: null, gesture: null });
-      }
-    });
+        hands.setOptions({
+          maxNumHands: 1,
+          modelComplexity: 1,
+          minDetectionConfidence: 0.5,
+          minTrackingConfidence: 0.5,
+        });
 
-    const camera = new Camera(videoRef.current, {
-      onFrame: async () => {
-        if (videoRef.current) {
-          await hands.send({ image: videoRef.current });
-        }
-      },
-      width: 640,
-      height: 480,
-    });
+        hands.onResults((results: any) => {
+          const canvas = canvasRef.current;
+          if (!canvas) return;
 
-    camera
-      .start()
-      .then(() => {
+          const ctx = canvas.getContext('2d');
+          if (!ctx) return;
+
+          // Clear canvas
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+            const landmarks = results.multiHandLandmarks[0];
+            const gestureResult = detectPointing(landmarks);
+            setGesture(gestureResult);
+
+            // Draw landmarks for debugging
+            ctx.fillStyle = '#FF0000';
+            landmarks.forEach((landmark: any) => {
+              ctx.beginPath();
+              ctx.arc(landmark.x * canvas.width, landmark.y * canvas.height, 3, 0, 2 * Math.PI);
+              ctx.fill();
+            });
+
+            // Highlight index finger tip if pointing
+            if (gestureResult.pointing && landmarks[8]) {
+              ctx.fillStyle = '#00FF00';
+              ctx.beginPath();
+              ctx.arc(
+                landmarks[8].x * canvas.width,
+                landmarks[8].y * canvas.height,
+                8,
+                0,
+                2 * Math.PI
+              );
+              ctx.fill();
+            }
+          } else {
+            setGesture({ pointing: false, pointingPosition: null, gesture: null });
+          }
+        });
+
+        camera = new Camera(videoRef.current, {
+          onFrame: async () => {
+            if (videoRef.current && hands) {
+              await hands.send({ image: videoRef.current });
+            }
+          },
+          width: 640,
+          height: 480,
+        });
+
+        await camera.start();
         setIsInitialized(true);
         setError(null);
-      })
-      .catch((err) => {
-        setError('Failed to initialize camera: ' + err.message);
-      });
+      } catch (err: any) {
+        setError('Failed to initialize hand tracking: ' + err.message);
+        console.error('Hand tracking initialization error:', err);
+      }
+    };
+
+    initializeHandTracking();
 
     return () => {
-      camera.stop();
+      if (camera) {
+        camera.stop();
+      }
     };
   }, [detectPointing]);
 
