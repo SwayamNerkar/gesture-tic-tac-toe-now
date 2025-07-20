@@ -1,73 +1,80 @@
-# Welcome to your Lovable project
+# 🤙 Hand Gesture Tic-Tac-Toe
 
-## Project info
+A revolutionary take on the classic Tic-Tac-Toe game! Play using nothing but hand gestures detected through your camera with AI-powered computer vision.
 
-**URL**: https://lovable.dev/projects/2b61149f-cd33-4a4d-aa26-aa890b772409
+## 🚀 [Play Live Demo](https://gesture-tic-tac-toe-now.lovable.app)
 
-## How can I edit this code?
+## ✨ Features
 
-There are several ways of editing your application.
+- **Hand Gesture Recognition**: Point your finger to make moves - no mouse or touch needed!
+- **Real-time AI Detection**: Powered by MediaPipe for accurate hand tracking
+- **Visual Feedback**: See your hand landmarks in real-time
+- **Smart Cooldown**: Prevents accidental moves with intelligent timing
+- **Responsive Design**: Beautiful UI that works on any device
+- **No Server Required**: Runs entirely in your browser
 
-**Use Lovable**
+## 🎮 How to Play
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/2b61149f-cd33-4a4d-aa26-aa890b772409) and start prompting.
+1. **Allow Camera Access**: Grant permission when prompted
+2. **Point to Play**: Extend your index finger and point at any empty cell
+3. **Keep Other Fingers Folded**: For best gesture recognition
+4. **Wait Between Moves**: 1-second cooldown prevents spam clicks
+5. **Win the Game**: Get three in a row horizontally, vertically, or diagonally!
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🛠️ Technology Stack
 
-**Use your preferred IDE**
+- **React 18** - Modern UI framework
+- **TypeScript** - Type-safe development
+- **MediaPipe** - Google's ML framework for hand detection
+- **Tailwind CSS** - Utility-first styling
+- **Vite** - Lightning-fast build tool
+- **shadcn/ui** - Beautiful component library
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🏃‍♂️ Quick Start
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+```bash
+# Clone the repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to project directory
+cd gesture-tic-tac-toe-now
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## 📱 Browser Requirements
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- Modern browser with camera support
+- HTTPS connection (required for camera access)
+- Good lighting for optimal hand detection
 
-**Use GitHub Codespaces**
+## 🎯 Gesture Tips
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- **Best Lighting**: Ensure good lighting on your hands
+- **Clear Background**: Plain backgrounds work better
+- **Steady Pointing**: Hold your finger steady for 0.5 seconds
+- **One Hand**: Use one hand at a time for best results
 
-## What technologies are used for this project?
+## 🚀 Deployment
 
-This project is built with:
+This project is built with Lovable and can be deployed instantly:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+1. Open [Lovable Project](https://lovable.dev/projects/2b61149f-cd33-4a4d-aa26-aa890b772409)
+2. Click **Share → Publish**
+3. Your app will be live at your custom domain!
 
-## How can I deploy this project?
+## 🔧 Development
 
-Simply open [Lovable](https://lovable.dev/projects/2b61149f-cd33-4a4d-aa26-aa890b772409) and click on Share -> Publish.
+Built with [Lovable](https://lovable.dev) - the AI-powered web development platform. Make changes by:
 
-## Can I connect a custom domain to my Lovable project?
+- **Using Lovable**: Visit the project and start prompting
+- **Local Development**: Clone, edit, and push changes
+- **GitHub Integration**: Automatic sync between Lovable and GitHub
 
-Yes, you can!
+## 📄 License
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+MIT License - Feel free to use this project for learning and experimentation!
